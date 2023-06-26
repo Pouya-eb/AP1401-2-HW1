@@ -27,3 +27,9 @@ std::vector<std::shared_ptr<std::vector<double>>> read_csv(std::string filename)
     file.close();
     return data;
 }
+
+// Sigmoid Function :
+double sigmoid(double input)
+{
+    return { 1.0 / (1 + std::exp(-input)) };
+}

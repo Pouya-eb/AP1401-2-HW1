@@ -8,5 +8,6 @@
 #include <vector>
 
 std::vector<std::shared_ptr<std::vector<double>>> read_csv(std::string filename);
+double sigmoid(double input);
 
 #endif

@@ -33,3 +33,44 @@ double sigmoid(double input)
 {
     return { 1.0 / (1 + std::exp(-input)) };
 }
+
+// Training Function :
+std::vector<double> train(std::vector<std::shared_ptr<std::vector<double>>> train_data,
+    double learning_rate, int num_iter)
+{
+    int real_val {}, predict_val {};
+    std::vector<double> weights { 0.0, 0.0, 0.0 };
+    int length_wights { static_cast<int>(weights.size()) };
+    int length_train { static_cast<int>(train_data.size()) };
+
+    for (int i {}; i < num_iter; i++) { // Number of Iteration
+        for (int j {}; j < length_train; j++) { // Training for whole data
+            real_val = train_data[j]->at(length_wights - 1);
+            predict_val = predict(*train_data[j], weights);
+            std::vector<double> bias { 1 };
+            for (int k {}; k < length_wights; k++) {
+                if (k < 2) {
+                    bias.push_back(train_data[j]->at(k));
+                }
+                weights[k] += learning_rate * (real_val - predict_val) * bias[k]; // formula for updating weights
+            }
+        }
+    }
+    return weights;
+}
+
+// Predict Function :
+int predict(std::vector<double> train_val, std::vector<double> weights)
+{
+    double sum { weights[0] };
+    int length_train = train_val.size();
+    for (int i { 1 }; i < length_train; i++) {
+        sum += train_val[i - 1] * weights[i]; // output of neuron without activation function
+    }
+
+    if (sigmoid(sum) >= 0.5) { // activation function = sigmoid
+        return 1;
+    } else {
+        return 0;
+    }
+}

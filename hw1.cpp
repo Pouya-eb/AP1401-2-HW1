@@ -74,3 +74,18 @@ int predict(std::vector<double> train_val, std::vector<double> weights)
         return 0;
     }
 }
+
+// Accuracy Function
+double accuracy(std::vector<std::shared_ptr<std::vector<double>>> train_data, std::vector<double> weights)
+{
+    int length_train { static_cast<int>(train_data.size()) };
+    int length_wights { static_cast<int>(weights.size()) };
+    double accurate {};
+
+    for (int i {}; i < length_train; i++) { // calculating accuracy of the model
+        if (predict(*train_data[i], weights) == (train_data[i]->at(length_wights - 1))) {
+            accurate++;
+        }
+    }
+    return accurate / length_train;
+}
